@@ -10,6 +10,9 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    address: {
+      type: String,
+    },
     password: {
       type: String,
       required: [true, "Password is required."],
@@ -18,7 +21,16 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
+    phoneNumber: {
+      type: number,
+    },
+    userType: {
+      type: String,
+      required: [true, "userType is required."],
+      enum: ["customer", "vendor", "admin"],
+    },
   },
+
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
