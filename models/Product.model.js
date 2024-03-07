@@ -18,14 +18,11 @@ const productSchema = new Schema(
       required: true,
     },
 
-    price500g: {
+    price: {
       type: number,
       required: true,
     },
-    price1000g: {
-      type: number,
-      required: true,
-    },
+    
     preperationTime: {
       type: number,
       required: true,
@@ -36,7 +33,7 @@ const productSchema = new Schema(
     },
     weight: {
       type: String,
-      enum: ["500g", "1000g"],
+      enum: ["500g", "1kg", "1.5kg", "2kg"],
     },
     vendor: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },

@@ -5,15 +5,17 @@ const orderSchema = new Schema(
   {
     customer: { type: Schema.Types.ObjectId, ref: "User", required: true },
     product: [{ type: Schema.Types.ObjectId, ref: "Product", required: true }],
+    vendor: { type: Schema.Types.ObjectId, ref: 'User' },
     status: {
       type: String,
-      enum: ["processing", "completed"],
+      enum: ['completed', 'reject', 'received'],
     },
     totalPrice: {
       type: Number,
       default: 0,
     },
     orderDate: { type: Date, default: Date.now },
+    deliveryAddress: { type: String, required: true },
   },
 
   {
