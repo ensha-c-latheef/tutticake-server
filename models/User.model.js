@@ -7,9 +7,9 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
-    address: {
-      type: String,
-    },
+    // address: {
+    //   type: String,
+    // },
     email: {
       type: String,
       required: [true, "Email is required."],
@@ -21,14 +21,15 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
-    phoneNumber: {
-      type: number,
-    },
-    userType: {
-      type: String,
-      required: [true, "userType is required."],
-      enum: ["customer", "vendor", "admin"],
-    },
+    // phoneNumber: {
+    //   type: number,
+    // },
+    // userType: {
+    //   type: String,
+    //   required: [true, "userType is required."],
+    //   enum: ["customer", "vendor", "admin"],
+
+    // },
   },
 
   {

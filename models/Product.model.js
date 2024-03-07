@@ -22,7 +22,7 @@ const productSchema = new Schema(
       type: number,
       required: true,
     },
-    
+
     preperationTime: {
       type: number,
       required: true,
@@ -31,11 +31,7 @@ const productSchema = new Schema(
       type: String,
       enum: ["milk", "alcahol", "egg"],
     },
-    weight: {
-      type: String,
-      enum: ["500g", "1kg", "1.5kg", "2kg"],
-    },
-    vendor: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    // vendor: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
 
   {
