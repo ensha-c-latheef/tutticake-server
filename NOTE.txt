@@ -1,0 +1,43 @@
+PAGES:
+<Home/>
+<Signup/>
+<Login/>
+<Profile/>
+
+<ListOfCakes/>
+<CakeDetail/>
+<AddCake/>
+<EditCake/>
+
+<Order/>
+
+COMPONENTS:
+<Navbar/>
+<Footer/>
+<CakeCard/>
+<IsPrivate/>
+
+
+ROUTES:
+POST - /auth/signup
+POST - /auth/login
+GET - /auth/verify
+
+GET - /cakes
+POST - /cakes/create
+GET - /cakes/:cakeId
+PUT - /cakes/:cakeId
+DELETE - /cakes/:cakeId
+
+GET - /orders
+POST - /orders/create
+{PUT - /orders/:orderId}
+{DELETE - /orders/:orderId}
+
+GET - /profile/:userId
+Put - /profile/:userId
+
+
+ 
+
+
