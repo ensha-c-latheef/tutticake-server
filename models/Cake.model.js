@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 // TODO: Please make sure you edit the Product model to whatever makes sense in this case
-const productSchema = new Schema(
+const cakeSchema = new Schema(
   {
     name: {
       type: String,
@@ -35,11 +35,10 @@ const productSchema = new Schema(
   },
 
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
   }
 );
 
-const Product = model("Product", productSchema);
+const Cake = model("Cake", cakeSchema);
 
-module.exports = Product;
+module.exports = Cake;
