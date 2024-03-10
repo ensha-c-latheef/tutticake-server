@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const Cake = require("../models/Cake.model");
 // const Task = require("../models/Task.model");
 
-//  POST /api/projects  -  Creates a new project
-router.post("/cakes", (req, res, next) => {
+//  CREATE A NEW CAKE
+router.post("/cakes/create", (req, res, next) => {
   const { name, description, imageUrl, price } = req.body;
 
   Cake.create({ name, description, imageUrl, price })
@@ -12,6 +12,7 @@ router.post("/cakes", (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
+// LIST CAKES
 router.get("/cakes", (req, res, next) => {
   Cake.find()
     // .populate("tasks")
@@ -19,6 +20,7 @@ router.get("/cakes", (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
+// SHOW A CAKE
 router.get("/cakes/:cakeId", (req, res, next) => {
   const { cakeId } = req.params;
 
@@ -32,7 +34,9 @@ router.get("/cakes/:cakeId", (req, res, next) => {
     .then((cake) => res.status(200).json(cake))
     .catch((error) => res.json(error));
 });
-router.put("/cakes/:cakeId", (req, res, next) => {
+
+// EDIT A CAKE
+router.put("/cakes/edit/:cakeId", (req, res, next) => {
   const { cakeId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(cakeId)) {
@@ -44,7 +48,7 @@ router.put("/cakes/:cakeId", (req, res, next) => {
     .then((updatedCake) => res.json(updatedCake))
     .catch((error) => res.json(error));
 });
-
+// DELEATE A CAKE
 router.delete("/cakes/:cakeId", (req, res, next) => {
   const { cakeId } = req.params;
 
