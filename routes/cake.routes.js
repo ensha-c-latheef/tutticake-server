@@ -1,19 +1,24 @@
 const router = require("express").Router();
 const mongoose = require("mongoose");
 const Cake = require("../models/Cake.model");
+
+const { isAuthenticated } = require("../middleware/jwt.middleware");
+
 // const Task = require("../models/Task.model");
 
 //  CREATE A NEW CAKE
-router.post("/cakes/create", (req, res, next) => {
+router.post("/", isAuthenticated, (req, res, next) => {
   const { name, description, imageUrl, price } = req.body;
 
-  Cake.create({ name, description, imageUrl, price })
+  const vendor = req.payload._id
+
+  Cake.create({ name, description, imageUrl, price, vendor })
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
 });
 
 // LIST CAKES
-router.get("/cakes", (req, res, next) => {
+router.get("/", (req, res, next) => {
   Cake.find()
     // .populate("tasks")
     .then((allCakes) => res.json(allCakes))
@@ -21,7 +26,7 @@ router.get("/cakes", (req, res, next) => {
 });
 
 // SHOW A CAKE
-router.get("/cakes/:cakeId", (req, res, next) => {
+router.get("/:cakeId", (req, res, next) => {
   const { cakeId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(cakeId)) {
@@ -30,13 +35,13 @@ router.get("/cakes/:cakeId", (req, res, next) => {
   }
 
   Cake.findById(cakeId)
-    // .populate("tasks")
+    .populate("vendor")
     .then((cake) => res.status(200).json(cake))
     .catch((error) => res.json(error));
 });
 
 // EDIT A CAKE
-router.put("/cakes/edit/:cakeId", (req, res, next) => {
+router.put("/:cakeId", isAuthenticated, (req, res, next) => {
   const { cakeId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(cakeId)) {
@@ -48,8 +53,9 @@ router.put("/cakes/edit/:cakeId", (req, res, next) => {
     .then((updatedCake) => res.json(updatedCake))
     .catch((error) => res.json(error));
 });
+
 // DELEATE A CAKE
-router.delete("/cakes/:cakeId", (req, res, next) => {
+router.delete("/:cakeId", isAuthenticated, (req, res, next) => {
   const { cakeId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(cakeId)) {
