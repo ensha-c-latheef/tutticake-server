@@ -31,9 +31,8 @@ const cakeSchema = new Schema(
     //   type: String,
     //   enum: ["milk", "alcahol", "egg"],
     // },
-    // vendor: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    vendor: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
-
   {
     timestamps: true,
   }
