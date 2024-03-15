@@ -8,11 +8,11 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 //  CREATE A NEW CAKE
 router.post("/", isAuthenticated, (req, res, next) => {
-  const { name, description, imageUrl, price } = req.body;
+  const { name, description, imageUrl, price, preperationTime } = req.body;
 
-  const vendor = req.payload._id
+  const vendor = req.payload._id;
 
-  Cake.create({ name, description, imageUrl, price, vendor })
+  Cake.create({ name, description, imageUrl, price, preperationTime, vendor })
     .then((response) => res.json(response))
     .catch((err) => res.json(err));
 });

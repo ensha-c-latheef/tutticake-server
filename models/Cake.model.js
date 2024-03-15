@@ -20,13 +20,13 @@ const cakeSchema = new Schema(
 
     price: {
       type: Number,
-      // required: true,
+      required: true,
     },
 
-    // preperationTime: {
-    //   type: number,
-    //   required: true,
-    // },
+    preperationTime: {
+      type: Number,
+      required: true,
+    },
     // allergens: {
     //   type: String,
     //   enum: ["milk", "alcahol", "egg"],
