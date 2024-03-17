@@ -31,8 +31,10 @@ const userSchema = new Schema(
     //   type: String,
     //   required: [true, "userType is required."],
     //   enum: ["customer", "vendor", "admin"],
-
     // },
+    imageUrl: {
+      type: String,
+    },
   },
 
   {
