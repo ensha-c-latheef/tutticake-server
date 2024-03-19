@@ -4,7 +4,7 @@ const { Schema, model } = require("mongoose");
 const orderSchema = new Schema(
   {
     customer: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    cakes: [{ type: Schema.Types.ObjectId, ref: "Cake", required: true }],
+    cakes: [{ type: Schema.Types.ObjectId, ref: "Cake" }],
     isPaid: {
       type: Boolean,
       default: false,
