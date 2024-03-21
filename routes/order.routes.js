@@ -1,15 +1,53 @@
-const express = require("express");
-const router = express.Router();
-
-// .post(`${API_URL}/order/addcake/${cakeId}`)
+const router = require("express").Router();
+const mongoose = require("mongoose");
+const Order = require("../models/Order.model");
+const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 //  ADD A CAKE INTO THE ORDER
-router.post("/", isAuthenticated, (req, res, next) => {
-  const { name, description, imageUrl, price, preperationTime } = req.body;
+router.post("/addcake/:cakeId", isAuthenticated, (req, res, next) => {
+  const { cakeId } = req.params;
+  console.log("cake id:" + cakeId);
+  const person = req.payload._id;
+  console.log(person);
 
-  const vendor = req.payload._id;
+  Order.findOne({ customer: person, isPaid: false })
+    .then((foundOrder) => {
+      console.log(foundOrder);
+      const orderId = foundOrder._id;
+      console.log(orderId);
+      Order.findByIdAndUpdate(orderId, {
+        $push: { cakes: cakeId },
+      })
+        .then((response) => {
+          //res.json(response);
+        })
+        .catch((err) => res.json(err));
+    })
+    .catch(next);
+});
 
-  Cake.create({ name, description, imageUrl, price, preperationTime, vendor })
-    .then((response) => res.json(response))
+// ORDER DETAILS - cart
+router.get("/cart", isAuthenticated, (req, res, next) => {
+  const person = req.payload._id;
+  console.log("person id: " + person);
+
+  Order.findOne({ customer: person, isPaid: false })
+    .populate("cakes")
+    .then((foundOrder) => {
+      res.json(foundOrder);
+    })
     .catch((err) => res.json(err));
 });
+
+router.put("/:orderId/close", isAuthenticated, (req, res, next) => {
+  const { orderId } = req.params;
+  // const person = req.payload._id;
+  console.log("order id: " + orderId);
+  Order.findByIdAndUpdate(orderId, { isPaid: true })
+    .then((response) => {
+      //res.json(response);
+    })
+    .catch((err) => res.json(err));
+});
+
+module.exports = router;
