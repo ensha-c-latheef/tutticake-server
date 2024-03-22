@@ -29,7 +29,7 @@ router.post("/addcake/:cakeId", isAuthenticated, (req, res, next) => {
 // ORDER DETAILS - cart
 router.get("/cart", isAuthenticated, (req, res, next) => {
   const person = req.payload._id;
-  console.log("person id: " + person);
+  // console.log("person id: " + person);
 
   Order.findOne({ customer: person, isPaid: false })
     .populate("cakes")
@@ -39,13 +39,31 @@ router.get("/cart", isAuthenticated, (req, res, next) => {
     .catch((err) => res.json(err));
 });
 
+// Close Current Order and open a new one
 router.put("/:orderId/close", isAuthenticated, (req, res, next) => {
   const { orderId } = req.params;
-  // const person = req.payload._id;
-  console.log("order id: " + orderId);
+
+  // console.log("order id: " + orderId);
   Order.findByIdAndUpdate(orderId, { isPaid: true })
     .then((response) => {
-      //res.json(response);
+      const customer = response.customer;
+      // console.log(customer);
+      Order.create({ customer: customer });
+      res.json(response);
+    })
+    .catch((err) => res.json(err));
+});
+
+// GET PREVIOUS ORDER LIST
+router.get("/list", isAuthenticated, (req, res, next) => {
+  const person = req.payload._id;
+  // console.log("person id: " + person);
+
+  Order.find({ customer: person, isPaid: true })
+    .populate("cakes")
+    .then((foundOrders) => {
+      console.log(foundOrders);
+      res.json(foundOrders);
     })
     .catch((err) => res.json(err));
 });

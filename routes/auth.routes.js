@@ -72,7 +72,7 @@ router.post("/signup", (req, res, next) => {
       // Send a json response containing the user object
       res.status(201).json({ user: user });
       let customer = _id;
-      // console.log("customer" + customer);
+      console.log("customer" + customer);
       return Order.create({ customer });
     })
 
