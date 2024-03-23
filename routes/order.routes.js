@@ -26,7 +26,7 @@ router.post("/addcake/:cakeId", isAuthenticated, (req, res, next) => {
     .catch(next);
 });
 
-// ORDER DETAILS - cart
+// CART DETAILS
 router.get("/cart", isAuthenticated, (req, res, next) => {
   const person = req.payload._id;
   // console.log("person id: " + person);
@@ -42,9 +42,11 @@ router.get("/cart", isAuthenticated, (req, res, next) => {
 // Close Current Order and open a new one
 router.put("/:orderId/close", isAuthenticated, (req, res, next) => {
   const { orderId } = req.params;
+  const { totalCost } = req.body;
+  console.log("totalcost:", totalCost);
 
   // console.log("order id: " + orderId);
-  Order.findByIdAndUpdate(orderId, { isPaid: true })
+  Order.findByIdAndUpdate(orderId, { isPaid: true, totalPrice: totalCost })
     .then((response) => {
       const customer = response.customer;
       // console.log(customer);
@@ -62,8 +64,23 @@ router.get("/list", isAuthenticated, (req, res, next) => {
   Order.find({ customer: person, isPaid: true })
     .populate("cakes")
     .then((foundOrders) => {
-      console.log(foundOrders);
+      // console.log(foundOrders);
       res.json(foundOrders);
+    })
+    .catch((err) => res.json(err));
+});
+
+// ORDER DETAILS
+router.get("/:orderId", (req, res, next) => {
+  // const person = req.payload._id;
+  // console.log("person id: " + person);
+  const { orderId } = req.params;
+  console.log(orderId);
+  Order.findOne({ _id: orderId })
+    .populate("cakes")
+    .then((foundOrder) => {
+      res.json(foundOrder);
+      console.log(foundOrder);
     })
     .catch((err) => res.json(err));
 });
