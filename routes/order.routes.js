@@ -19,7 +19,7 @@ router.post("/addcake/:cakeId", isAuthenticated, (req, res, next) => {
         $push: { cakes: cakeId },
       })
         .then((response) => {
-          //res.json(response);
+          res.json(response);
         })
         .catch((err) => res.json(err));
     })
