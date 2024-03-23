@@ -71,7 +71,7 @@ router.get("/list", isAuthenticated, (req, res, next) => {
 });
 
 // ORDER DETAILS
-router.get("/:orderId", (req, res, next) => {
+router.get("/:orderId", isAuthenticated, (req, res, next) => {
   // const person = req.payload._id;
   // console.log("person id: " + person);
   const { orderId } = req.params;
