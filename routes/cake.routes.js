@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const mongoose = require("mongoose");
 const Cake = require("../models/Cake.model");
-
+const Review = require("../models/Review.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-// const Task = require("../models/Task.model");
+
 
 //  CREATE A NEW CAKE
 router.post("/", isAuthenticated, (req, res, next) => {
@@ -36,6 +36,13 @@ router.get("/:cakeId", (req, res, next) => {
 
   Cake.findById(cakeId)
     .populate("vendor")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "author",
+      },
+      options: { sort: {'createdAt': 'desc'} },
+    })
     .then((cake) => res.status(200).json(cake))
     .catch((error) => res.json(error));
 });
@@ -71,5 +78,30 @@ router.delete("/:cakeId", isAuthenticated, (req, res, next) => {
     )
     .catch((error) => res.json(error));
 });
+
+ /* POST - add comment */
+router.post("/:id/comment", isAuthenticated, (req, res, next) => {
+  let author = req.payload._id;
+  let cake = req.params.id;
+  let rating = req.body.rating;
+  let comment = req.body.comment;
+  Review.create({
+    author,
+    cake,
+    rating,
+    comment,
+  })
+    .then((newReview) => {
+      Cake.findByIdAndUpdate(cake, {
+        $push: { reviews: newReview._id },
+      }).then(() => {
+        res.status(200).json(newReview);
+      });
+    })
+    .catch((error) =>
+      console.log(`Error while creating a new comment for cake: ${error}`)
+    );
+});
+
 
 module.exports = router;

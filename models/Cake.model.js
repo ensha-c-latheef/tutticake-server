@@ -27,11 +27,8 @@ const cakeSchema = new Schema(
       type: Number,
       required: true,
     },
-    // allergens: {
-    //   type: String,
-    //   enum: ["milk", "alcahol", "egg"],
-    // },
     vendor: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
   },
   {
     timestamps: true,

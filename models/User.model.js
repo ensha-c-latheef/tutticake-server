@@ -25,15 +25,6 @@ const userSchema = new Schema(
       type: String,
     },
     order: { type: Schema.Types.ObjectId, ref: "Order" },
-
-    // cakesToOrder: [
-    //   { type: Schema.Types.ObjectId, ref: "Cake", required: true },
-    // ],
-    // userType: {
-    //   type: String,
-    //   required: [true, "userType is required."],
-    //   enum: ["customer", "vendor", "admin"],
-    // },
     imageUrl: {
       type: String,
     },
