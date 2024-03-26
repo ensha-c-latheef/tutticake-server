@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 
 // Require the User model in order to interact with the database
 const User = require("../models/User.model");
+const Order = require("../models/Order.model");
 
 // Require necessary (isAuthenticated) middleware in order to control access to specific routes
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
@@ -18,7 +19,7 @@ const saltRounds = 10;
 
 // POST /auth/signup  - Creates a new user in the database
 router.post("/signup", (req, res, next) => {
-  const { name, email, password, } = req.body;
+  const { name, email, password } = req.body;
 
   // Check if email or password or name are provided as empty strings
   if (name === "" || email === "" || password === "") {
@@ -63,14 +64,18 @@ router.post("/signup", (req, res, next) => {
     .then((createdUser = {}) => {
       // Deconstruct the newly created user object to omit the password
       // We should never expose passwords publicly
-      const { name, email,  _id } = createdUser;
+      const { name, email, _id } = createdUser;
 
       // Create a new object that doesn't expose the password
       const user = { name, email, _id };
 
       // Send a json response containing the user object
       res.status(201).json({ user: user });
+      let customer = _id;
+      console.log("customer" + customer);
+      return Order.create({ customer });
     })
+
     .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
 });
 
@@ -120,6 +125,7 @@ router.post("/login", (req, res, next) => {
 
 // GET  /auth/verify  -  Used to verify JWT stored on the client
 router.get("/verify", isAuthenticated, (req, res, next) => {
+  console.log(req.payload);
   // If JWT token is valid the payload gets decoded by the
   // isAuthenticated middleware and is made available on `req.payload`
   // Send back the token payload object containing the user data

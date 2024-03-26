@@ -24,15 +24,10 @@ const userSchema = new Schema(
     phoneNumber: {
       type: String,
     },
-    cakesToOrder: [
-      { type: Schema.Types.ObjectId, ref: "Cake", required: true },
-    ],
-    // userType: {
-    //   type: String,
-    //   required: [true, "userType is required."],
-    //   enum: ["customer", "vendor", "admin"],
-
-    // },
+    order: { type: Schema.Types.ObjectId, ref: "Order" },
+    imageUrl: {
+      type: String,
+    },
   },
 
   {
