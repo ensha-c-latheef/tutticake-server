@@ -71,11 +71,15 @@ router.delete("/:cakeId", isAuthenticated, (req, res, next) => {
   }
 
   Cake.findByIdAndDelete(cakeId)
-    .then(() =>
-      res.json({
-        message: `Cake with ${cakeId} is removed successfully.`,
-      })
-    )
+    .then(() => {
+      Review.deleteMany({ cake: cakeId })
+        .then(() => {
+          res.json({
+            message: `Cake with ${cakeId} is removed successfully.`,
+          })
+        })
+        .catch((error) => res.json(error));
+    })
     .catch((error) => res.json(error));
 });
 
