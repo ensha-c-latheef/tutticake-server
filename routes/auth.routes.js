@@ -72,7 +72,6 @@ router.post("/signup", (req, res, next) => {
       // Send a json response containing the user object
       res.status(201).json({ user: user });
       let customer = _id;
-      console.log("customer" + customer);
       return Order.create({ customer });
     })
 
@@ -125,7 +124,6 @@ router.post("/login", (req, res, next) => {
 
 // GET  /auth/verify  -  Used to verify JWT stored on the client
 router.get("/verify", isAuthenticated, (req, res, next) => {
-  console.log(req.payload);
   // If JWT token is valid the payload gets decoded by the
   // isAuthenticated middleware and is made available on `req.payload`
   // Send back the token payload object containing the user data
